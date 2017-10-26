@@ -1,3 +1,5 @@
+// https://www.interviewcake.com/question/javascript/balanced-binary-tree
+
 function BinaryTreeNode(val) {
   this.val = val;
   this.left = this.right = null;
@@ -33,7 +35,7 @@ function balancedBinaryTree(root) {
         }
       }
     }
-    
+
     if (node.left) {
       stack.push([node.left, d + 1]);
     }
