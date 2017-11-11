@@ -1,14 +1,15 @@
-// https://www.interviewcake.com/question/javascript/permutation-palindrome
 /**
+ * https://www.interviewcake.com/question/javascript/permutation-palindrome
+ * 
  * Example: 
  * "civic" => true
  * "ivicc" => true
  * "civil" => false
  * "livci" => false
  * 
- * Clarify the problem: 
+ * Ask questions to clarify the problem: 
  * 1. What's format of the input string ? 
- *    Does it only contain lowercase letters ? 
+ * 2. Does it only contain lowercase letters ? 
  * 
  * Explain your approach: 
  * 1. Check every permutation of the input string to see if it is a palindrome.
@@ -21,14 +22,14 @@
  *    We iterate through each char in the input string,
  *    keeping track of the chars we've seen an odd number of times using a set. 
  * 
- * Test with edge case: 
- * 1. empty string
- * 2. even number of length aabb, abbb
+ * Test with edge cases: 
+ * 1. Empty string
+ * 2. Even number of length. e.g. aabb
  * 
  * Analyze time and space complexity: 
- * Time - O(n), we only iterate thorugh each char in the input string once. 
- * Space - O(n), we use set to keep track of the chars, 
- *         the worst case might be each char appears odd number of times.
+ * T : O(n). We only iterate thorugh each char in the input string once. 
+ * S : O(1). 26 letters 
+ * 
  */
 
 function hasPalindromePermutation(str) {
