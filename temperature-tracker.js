@@ -5,29 +5,32 @@
  * to a heap which heap property is the max frequency. So we can remove the 
  * first element from heap to get O(1) time. However, we need to cost O(logN)
  * for inserting a new element into heap while in insert(). 
+ * 
+ * Update: instead of using heap, we can use an array to record frequency of temp
+ * and use two variables to keep track of the mod and the frequency of mod. 
  */
 function TempTracker() {
   this._max = -Infinity;
   this._min = Infinity;
   this._sum = 0;
   this._size = 0;
-  this._map = new Map();
+  this._map = new Array(110);
+  this._map.fill(0);
+  this._modCount = 0;
+  this._mod = 0;
 }
 
-// T: O(1), S: O(N)
+// T: O(1), S: O(1)
 TempTracker.prototype.insert = function(temp) {
+  this._map[temp] += 1;
+  if (this._map[temp] > this._modCount) {
+    this._modCount = this._map[temp];
+    this._mod = temp;
+  }
   this._max = Math.max(this._max, temp);
   this._min = Math.min(this._min, temp);
   this._sum = this._sum + temp;
   this._size += 1;
-
-  if (this._map.has(temp)) {
-    let f = this._map.get(temp);
-    this._map.set(temp, f + 1);
-  } else {
-    this._map.set(temp, 1);
-  }
-
   return temp;
 }
 
@@ -46,18 +49,9 @@ TempTracker.prototype.getMean = function() {
   return parseInt(this._sum / this._size);
 }
 
-// T: O(N), S: O(N)
+// T: O(1), S: O(1)
 TempTracker.prototype.getMode = function() {
-  let mode = {
-    'temp': null,
-    'time': 0
-  };
-  this._map.forEach((val, key) => {
-    if (val > mode['time']) {
-      mode = {'temp': key, 'time': val};
-    }
-  });
-  return mode['temp'];
+  return this._mod;
 }
 
 let t = new TempTracker();
