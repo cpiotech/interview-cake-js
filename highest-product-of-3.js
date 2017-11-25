@@ -21,6 +21,11 @@
  * Analyze the time & space complexity: 
  * T: O(n)
  * S: O(1)
+ * 
+ * A greedy algorithm iterates through the problem space taking the optimal
+ * solution "so far", until it reaches the end. The greedy approach is only
+ * optimal if the problem has "optimal substrucutre", which means stitching
+ * together optimal solutions to subproblems yields an optimal solution.
  */
 
 function highestProductOf3(nums) { 
