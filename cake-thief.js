@@ -23,10 +23,33 @@ function maxDuffelBagValueRecursive(cakeTypes, capacity) {
     for (let i = index; i < cakeTypes.length; i++) {
       let c = cakeTypes[i];
       if (c.weight <= capacity && c.weight !== 0) {
-        max = Math.max(max, maxDuffelBagValueRecursive(cakeTypes, capacity - c.weight, i) + c.value);
+        max = Math.max(max, helper(cakeTypes, capacity - c.weight, i) + c.value);
       }
     }
     return max;
+  };
+  return helper(cakeTypes, capacity, 0);
+}
+
+function maxDuffelBagValueMemo(cakeTypes, capacity) {
+  const map = {};
+  const helper = (cakeTypes, capacity, index) => {
+    if (capacity === 0) {
+      return 0;
+    }
+    let key = `${capacity}`;
+    if (key in map) {
+      return map[key];
+    }
+    let max = 0;
+    for (let i = index; i < cakeTypes.length; i++) {
+      let c = cakeTypes[i];
+      if (c.weight <= capacity && c.weight !== 0) {
+        max = Math.max(max, helper(cakeTypes, capacity - c.weight, i) + c.value);
+      }
+    }
+    map[key] = max;
+    return map[key];
   };
   return helper(cakeTypes, capacity, 0);
 }
@@ -79,9 +102,12 @@ let cakeTypes = [
   {weight: 2, value: 15},
   {weight: 0, value: 0}
 ];
+console.log('---');
 console.log(maxDuffelBagValueRecursive(cakeTypes, 21));
-console.log(maxDuffelBagValueDP(cakeTypes, 20));
+console.log('---');
+console.log(maxDuffelBagValueMemo(cakeTypes, 21));
+// console.log(maxDuffelBagValueDP(cakeTypes, 20));
 
-console.log(maxDuffelBagValue(cakeTypes, 21));
+// console.log(maxDuffelBagValue(cakeTypes, 21));
 
 // console.log(maxDuffelBagValue(cakeTypes, 0));
