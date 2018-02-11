@@ -13,6 +13,39 @@
  * T: O(N*M) N is the number of capacity and M is the number of cakeTypes.
  * S: O(N)
  */
+
+function maxDuffelBagValueRecursive(cakeTypes, capacity) {
+  const helper = (cakeTypes, capacity, index) => {
+    if (capacity === 0) {
+      return 0;
+    }
+    let max = 0;
+    for (let i = index; i < cakeTypes.length; i++) {
+      let c = cakeTypes[i];
+      if (c.weight <= capacity && c.weight !== 0) {
+        max = Math.max(max, maxDuffelBagValueRecursive(cakeTypes, capacity - c.weight, i) + c.value);
+      }
+    }
+    return max;
+  };
+  return helper(cakeTypes, capacity, 0);
+}
+
+function maxDuffelBagValueDP(cakeTypes, capacity) {
+  let dp = new Array(capacity + 1).fill(0);
+  for (let i = 1; i < dp.length; i++) {
+    let max = 0;
+    for (let j = 0; j < cakeTypes.length; j++) {
+      let c = cakeTypes[j];
+      if (i >= c.weight) {
+        max = Math.max(max, dp[i - c.weight] + c.value);
+      }
+    }
+    dp[i] = max;
+  }
+  return dp[capacity];
+}
+
 function maxDuffelBagValue(cakeTypes, capacity) {
   let dp = new Array(capacity + 1);
   dp.fill(0);
@@ -40,11 +73,15 @@ function maxDuffelBagValue(cakeTypes, capacity) {
 // ];
 
 let capacity = 20;
-// console.log(maxDuffelBagValue(cakeTypes, capacity));
 let cakeTypes = [
   {weight: 7, value: 160},
   {weight: 3, value: 90},
   {weight: 2, value: 15},
   {weight: 0, value: 0}
 ];
-console.log(maxDuffelBagValue(cakeTypes, 0));
+console.log(maxDuffelBagValueRecursive(cakeTypes, 21));
+console.log(maxDuffelBagValueDP(cakeTypes, 20));
+
+console.log(maxDuffelBagValue(cakeTypes, 21));
+
+// console.log(maxDuffelBagValue(cakeTypes, 0));
